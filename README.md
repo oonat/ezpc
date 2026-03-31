@@ -5,6 +5,9 @@
 </p>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/2603.28211" target="_blank">
+    <img src="https://img.shields.io/badge/Paper-arxiv.2603.28211-B31B1B.svg" alt="ArXiv">
+  </a>
   <a href="https://oonat.github.io/ezpc" target="_blank">
     <img src="https://img.shields.io/badge/Project-Website-blue.svg" alt="Project Page">
   </a>
