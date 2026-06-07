@@ -1,0 +1,12 @@
+[project]
+name = "ezpc"
+version = "0.1.0"
+description = "Explaining CLIP Zero-shot Predictions Through Concepts"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["model", "utils", "dataset"]

@@ -1,0 +1,28 @@
+# Minimal environment to reproduce EZPC results.
+# Mirrors the verified env used to reproduce the paper's numbers (PyTorch 2.2.0).
+# For exact reproduction of reported numbers, run on an H100 GPU.
+name: ezpc
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      # --- core ---
+      - torch==2.2.0
+      - torchvision==0.17.0
+      - numpy==1.26.4
+      - matplotlib==3.8.2
+      - pillow==12.2.0
+      - tqdm==4.67.3
+
+      # --- CLIP backbones ---
+      - openai-clip==1.0.1      # OpenAI CLIP (RN50 / ViT-B-32 / ViT-L-14)
+      - open-clip-torch==3.2.0  # SigLIP backbone
+      - timm==1.0.26            # required by open_clip for the SigLIP model
+      - ftfy==6.3.1             # CLIP tokenizer dep
+      - regex==2026.4.4         # CLIP tokenizer dep
+      - huggingface-hub==1.10.1
+
+      # --- only needed for the ImageNet-1k dataset path ---
+      - datasets
