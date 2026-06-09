@@ -6,14 +6,15 @@
 
 <img src="assets/EZPC_overview.png" width="90%" alt="Overview of EZPC"/>
 
-**[Onat Ozdemir](https://oonat.github.io/)** • 
+**[Onat Ozdemir](https://oonat.github.io/)**<sup>*</sup> • 
 **[Anders Christensen](https://scholar.google.com/citations?user=z7WhDRIAAAAJ)** • 
 **[Stephan Alaniz](https://scholar.google.com/citations?user=mzZa_yQAAAAJ)** • 
 **[Zeynep Akata](https://www.helmholtz-munich.de/en/eml/zeynep-akata)** • 
 **[Emre Akbas](https://user.ceng.metu.edu.tr/~emre/)**
 
-</div>
+<sup>*</sup>Corresponding author: `onat.ozdemir [at] ed.ac.uk`
 
+</div>
 
 ## News
 - **[2026-04-09]** 🎉 We will present EZPC also in **The 5th Explainable AI for Computer Vision (XAI4CV) Workshop** at CVPR 2026.
