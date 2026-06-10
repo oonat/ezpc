@@ -6,10 +6,9 @@ channels:
   - defaults
 dependencies:
   - python=3.10
+  - setuptools<70
   - pip
   - pip:
-      # --- build (older setuptools: OpenAI CLIP imports pkg_resources.packaging) ---
-      - setuptools==69.0.3
       # --- core ---
       - torch==2.2.0
       - torchvision==0.17.0

@@ -110,7 +110,7 @@ Repeat for each dataset and backbone combination.
 **Backbones:** `RN50`, `ViT-B/32`, `ViT-L/14`, `ViT-SO400M-14-SigLIP-384` (and other CLIP/SigLIP variants from OpenCLIP)
 </details>
 
-### Expected Data Structure
+### Expected Data Folder Structure
 
 ```
 data/
@@ -296,7 +296,7 @@ python experiments/cross_dataset_transfer/cross_test.py \
 
 ### Qualitative Analysis
 
-Generate image-level and class-level concept attribution visualizations:
+Generate image-level and class-level concept attribution, and concept-based clustering visualizations:
 
 ```bash
 # Image-level: top concept activations per image
