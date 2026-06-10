@@ -121,7 +121,6 @@ def main(args):
         if args.checkpoint_path is None:
             raise ValueError("--checkpoint_path is required when --use_concept_matrix is not set")
         A_matrix = torch.load(args.checkpoint_path, map_location=args.device, weights_only=True)
-        print(A_matrix.shape)
 
     # Load test embeddings
     class_split, seen_embs, seen_targets, unseen_embs, unseen_targets = \

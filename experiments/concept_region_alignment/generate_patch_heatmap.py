@@ -233,8 +233,8 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_root", type=str, required=True, 
                         help="Path to the root dataset folder")
     parser.add_argument("--class_key", required=True,
-                        help="Class identifier: human-readable name with underscores"
-                             "(e.g., 'Indigo_Bunting', 'abbey', 'pelican') "
+                        help="Class identifier: human-readable class name "
+                             "(e.g., 'Indigo Bunting') "
                              "or ImageNet wnid (e.g., 'n02051845')")
     parser.add_argument("--pos_concept", required=True, 
                         help='e.g. "a blue-gray body"')

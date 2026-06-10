@@ -8,6 +8,8 @@ dependencies:
   - python=3.10
   - pip
   - pip:
+      # --- build (older setuptools: OpenAI CLIP imports pkg_resources.packaging) ---
+      - setuptools==69.0.3
       # --- core ---
       - torch==2.2.0
       - torchvision==0.17.0
@@ -23,6 +25,8 @@ dependencies:
       - ftfy==6.3.1             # CLIP tokenizer dep
       - regex==2026.4.4         # CLIP tokenizer dep
       - huggingface-hub==1.10.1
+      - click                   # required by the hf CLI
+      - typer                   # required by the hf CLI
 
       # --- only needed for the ImageNet-1k dataset path ---
       - datasets

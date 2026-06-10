@@ -65,6 +65,31 @@ def mean_std(x):
     return float(x.mean()), float(x.std())
 
 # ============================================================
+# Class resolution
+# ============================================================
+def resolve_cub_class_dir(dataset_root, class_key):
+    """Resolve a class_key to the CUB image folder name (e.g. '089.Indigo_Bunting').
+
+    Accepts the same human-readable form as generate_patch_heatmap.py
+    (e.g. 'Indigo_Bunting' or 'Indigo Bunting'), as well as the full folder name.
+    """
+    images_root = os.path.join(dataset_root, "CUB-200-2011", "images")
+    key = class_key.replace(" ", "_")
+
+    # Already a valid folder name (e.g. '089.Indigo_Bunting')
+    if os.path.isdir(os.path.join(images_root, class_key)):
+        return class_key
+
+    # Match by the name after the numeric prefix
+    for name in sorted(os.listdir(images_root)):
+        if name.split(".", 1)[-1] == key:
+            return name
+
+    raise FileNotFoundError(
+        f"Could not resolve class_key '{class_key}' to a CUB image folder under {images_root}"
+    )
+
+# ============================================================
 # Main
 # ============================================================
 def main(args):
@@ -75,10 +100,11 @@ def main(args):
 
     _, concept_names = load_dataset_config(args.dataset_root, "CUB-200-2011")
 
-    class_name = args.class_key.split(".")[-1].replace("_", " ")
+    class_dir = resolve_cub_class_dir(args.dataset_root, args.class_key)
+    class_name = class_dir.split(".", 1)[-1].replace("_", " ")
 
     candidates = sorted(
-        glob.glob(f"{args.dataset_root}/CUB-200-2011/images/{args.class_key}/*.jpg")
+        glob.glob(f"{args.dataset_root}/CUB-200-2011/images/{class_dir}/*.jpg")
     )
     if not candidates:
         raise FileNotFoundError(f"No images found for class_key={args.class_key}")
@@ -180,8 +206,8 @@ if __name__ == "__main__":
                         help="Path to the trained A matrix checkpoint")
     parser.add_argument("--dataset_root", type=str, required=True,
                         help="Path to the root dataset folder")
-    parser.add_argument("--class_key", required=True, 
-                        help="e.g. 089.Indigo_Bunting")
+    parser.add_argument("--class_key", required=True,
+                        help="e.g., 'Indigo Bunting'")
     parser.add_argument("--pos_concept", required=True, 
                         help='e.g. "a blue-gray body"')
     parser.add_argument("--neg_concept", required=True, 

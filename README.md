@@ -18,7 +18,7 @@
 
 ## News
 - **[2026-04-09]** 🎉 We will present EZPC also in **The 5th Explainable AI for Computer Vision (XAI4CV) Workshop** at CVPR 2026.
-- **[2026-02-21]** 🎉 Our paper was accepted to **CVPR 2026 (main)**.
+- **[2026-02-21]** 🎉 Our paper was accepted to **CVPR 2026 (Main)**.
 
 
 ## Abstract
@@ -32,6 +32,7 @@ Large-scale vision-language models such as CLIP have achieved remarkable success
 - Python 3.10
 - PyTorch 2.2.0
 - CUDA-capable GPU (an **H100** is required to exactly reproduce the reported numbers)
+- (Optional) The results were produced using the **"pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime"** Docker image.
 
 We ship a conda environment file pinned to the exact stack used to produce the paper's results:
 
@@ -52,7 +53,7 @@ EZPC operates on pre-computed CLIP/SigLIP image embeddings. You can either downl
 We host all pre-computed embeddings on [HuggingFace Hub](https://huggingface.co/datasets/oonat/ezpc-embeddings) (`huggingface-hub` is included in `environment.yml`):
 
 ```bash
-huggingface-cli download oonat/ezpc-embeddings --repo-type dataset --local-dir data
+hf download oonat/ezpc-embeddings --repo-type dataset --local-dir data
 ```
 
 This downloads image **and** cached text embeddings (`{backbone}_classname_embs.pt`,
@@ -203,7 +204,7 @@ All pre-trained checkpoints are hosted on the [oonat/ezpc-checkpoints](https://h
 **To use a checkpoint, download its folder into the `checkpoints/` directory at the repository root**, preserving the folder name. For example, the CIFAR-100 / RN50 checkpoint should end up at:
 
 ```
-EZPC/
+ezpc/
 └── checkpoints/
     └── CIFAR-100_backbone_RN50_weight_1.0_epoch_10000_lr_0.01_bs_1000000/
         └── best_A.pth
@@ -257,6 +258,8 @@ python experiments/faithfulness_analysis.py \
     --backbone RN50
 ```
 
+Results will be saved under the "./faithfulness_outputs" folder.
+
 ### Concept Space Structural Analysis
 
 Generate PCA visualizations, similarity heatmaps, and activation sparsity histograms:
@@ -268,6 +271,8 @@ python experiments/concept_space_analysis.py \
     --checkpoint_path ./checkpoints/.../best_A.pth \
     --backbone RN50
 ```
+
+Results will be saved under the "./structure_analysis_output" folder.
 
 ### Cross-Dataset Transfer
 
@@ -319,14 +324,25 @@ python experiments/qualitative_experiments/clustering.py \
 
 ### Concept-Region Alignment
 
-Generate patch-level heatmaps and compute IoU metrics for spatial grounding:
+Generate patch-level heatmaps:
 
 ```bash
 python experiments/concept_region_alignment/generate_patch_heatmap.py \
     --dataset CUB-200-2011 \
     --dataset_root ./data \
     --checkpoint_path ./checkpoints/.../best_A.pth \
-    --class_key "089.Indigo_Bunting" \
+    --class_key "Indigo Bunting" \
+    --pos_concept "a blue-gray body" \
+    --neg_concept "a red face"
+```
+
+Compute IoU metrics for spatial grounding (applicable only to CUB-200-2011 as it includes segmentation masks):
+
+```bash
+python experiments/concept_region_alignment/calculate_iou_metrics.py \
+    --dataset_root ./data \
+    --checkpoint_path ./checkpoints/.../best_A.pth \
+    --class_key "Indigo Bunting" \
     --pos_concept "a blue-gray body" \
     --neg_concept "a red face"
 ```
@@ -336,7 +352,10 @@ python experiments/concept_region_alignment/generate_patch_heatmap.py \
 Sweep over $\lambda$ values to study the accuracy-fidelity trade-off:
 
 ```bash
-bash experiments/lambda_ablation/run_lambda_ablation.sh
+bash experiments/lambda_ablation/run_lambda_ablation.sh \
+    --dataset ImageNet-100 \
+    --dataset_root ./data \
+    --lambda_values "0.01,0.1,1,10,100,1000"
 ```
 
 ### Vocabulary Size Ablation
@@ -344,17 +363,11 @@ bash experiments/lambda_ablation/run_lambda_ablation.sh
 Study the effect of concept vocabulary size $m$ on performance:
 
 ```bash
-python experiments/vocab_size_ablation/train.py \
+bash experiments/vocab_size_ablation/run_vocab_size_ablation.sh \
     --dataset ImageNet-100 \
     --dataset_root ./data \
-    --backbone RN50 \
-    --num_concepts 100
-
-python experiments/vocab_size_ablation/test_all.py \
-    --dataset ImageNet-100 \
-    --dataset_root ./data \
-    --backbone RN50 \
-    --num_concepts 100
+    --seeds "12,123,1234" \
+    --vocab_sizes "250,500,1000,2000,3000"
 ```
 
 ## Project Structure
