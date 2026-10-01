@@ -20,9 +20,10 @@
 - **[2026-04-09]** 🎉 We will present EZPC also in **The 5th Explainable AI for Computer Vision (XAI4CV) Workshop** at CVPR 2026.
 - **[2026-02-21]** 🎉 Our paper was accepted to **CVPR 2026 (Main)**.
 
+## Note on Eq. 4 (paper)
+Eq. 4 and the Figure 1 formula in the paper misstate the reconstruction loss as `KL(p_concept || p_CLIP)`. The code uses the standard distillation direction, `KL(p_CLIP || p_concept)`, via `F.kl_div(ezpc_log_probs, clip_probs)`. **The code is correct and reported results are unaffected.** To be fixed in arXiv v2.
 
 ## Abstract
-
 Large-scale vision-language models such as CLIP have achieved remarkable success in zero-shot image recognition, yet their predictions remain largely opaque to human understanding. In contrast, Concept Bottleneck Models provide interpretable intermediate representations by reasoning through human-defined concepts, but they rely on concept supervision and lack the ability to generalize to unseen classes. We introduce EZPC that bridges these two paradigms by explaining CLIP's zero-shot predictions through human-understandable concepts. Our method projects CLIP's joint image-text embeddings into a concept space learned from language descriptions, enabling faithful and transparent explanations without additional supervision. The model learns this projection via a combination of alignment and reconstruction objectives, ensuring that concept activations preserve CLIP's semantic structure while remaining interpretable. Extensive experiments on five benchmark datasets, CIFAR-100, CUB-200-2011, Places365, ImageNet-100, and ImageNet-1k, demonstrate that our approach maintains CLIP's strong zero-shot classification accuracy while providing meaningful concept-level explanations. By grounding open-vocabulary predictions in explicit semantic concepts, our method offers a principled step toward interpretable and trustworthy vision-language models.
 
 ## Installation
@@ -318,7 +319,7 @@ python experiments/qualitative_experiments/clustering.py \
     --dataset CUB-200-2011 \
     --dataset_root ./data \
     --checkpoint_path ./checkpoints/.../best_A.pth \
-    --target_concept "has a red beak" \
+    --target_concept "a Scarlet-red body" \
     --backbone RN50
 ```
 
